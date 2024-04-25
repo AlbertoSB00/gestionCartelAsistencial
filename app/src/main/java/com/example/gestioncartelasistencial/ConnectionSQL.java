@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class ConnectionSQL {
     protected static String DB = "appandujarsalud";
-    protected static String IP = "192.168.1.10";
+    protected static String IP = "10.0.2.2";
     protected static String PORT = "3306";
     protected static String USERNAME = "root";
     protected static String PASSWORD = "usuario";
