@@ -1,19 +1,19 @@
 package com.example.gestioncartelasistencial;
 
-import java.sql.Connection;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -21,22 +21,13 @@ public class LoginActivity extends AppCompatActivity {
 
     ConnectionSQL connection;
     Connection connect;
-    ResultSet resultSet;
-    String name, str;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         connection = new ConnectionSQL();
-        connect();
 
         // Al pulsar "Regístrate ahora".
         TextView textoRegistrateAhora = findViewById(R.id.textoRegistrateAhora);
@@ -44,31 +35,92 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
         });
-    }
 
-    // Conexión a la bd.
-    public void connect(){
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.execute(() ->{
-            try{
-                connect = connection.CONN();
-                if(connect == null){
-                    str = "Error in connection with MySQL Server.";
-                }else{
-                    str = "Connected with MySQL Server.";
-                }
-            }catch (Exception e){
-                throw new RuntimeException(e);
-            }
+        // Al pulsar "Iniciar sesión".
+        TextView botonIniciarSesion = findViewById(R.id.botonSiguiente);
+        botonIniciarSesion.setOnClickListener(v -> {
 
-            runOnUiThread(() ->{
-                try{
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            executorService.execute(() -> {
+                try {
+                    connect = connection.CONN();
+                    if (connect != null) {
+
+                        EditText campoUser = findViewById(R.id.campoUser);
+                        EditText campoPassword = findViewById(R.id.campoPassword);
+
+                        String user = campoUser.getText().toString();
+                        String password = campoPassword.getText().toString();
+                        String hashedPassword = cifrarPassword(password);
+
+                        // Realizar la consulta SQL para buscar al usuario por su correo electrónico y contraseña
+                        String query = "SELECT * FROM usuario WHERE correo = ? AND contraseña = ?";
+                        PreparedStatement preparedStatement = null;
+                        ResultSet resultSet = null;
+                        try {
+                            preparedStatement = connect.prepareStatement(query);
+                            preparedStatement.setString(1, user);
+                            preparedStatement.setString(2, hashedPassword);
+                            resultSet = preparedStatement.executeQuery();
+
+                            if (resultSet.next()) {
+                                runOnUiThread(() -> {
+
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+
+                                });
+                            } else {
+                                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Correo electrónico o contraseña incorrectos", Toast.LENGTH_SHORT).show());
+                            }
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+
+                        } finally {
+                            try {
+                                if (resultSet != null) {
+                                    resultSet.close();
+                                }
+                                if (preparedStatement != null) {
+                                    preparedStatement.close();
+                                }
+
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    } else {
+                        runOnUiThread(() -> {
+                            Toast.makeText(LoginActivity.this, "Error al conectar con la bd", Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                     throw new RuntimeException(e);
                 }
-                Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
             });
         });
+
+    }
+
+    // Método para cifrar la contraseña usando SHA-256
+    public String cifrarPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes());
+
+            // Convertir el hash en formato hexadecimal
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

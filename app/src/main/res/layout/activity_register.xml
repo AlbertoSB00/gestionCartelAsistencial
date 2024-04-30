@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 app:srcCompat="@drawable/logo"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="64dp"
                 android:contentDescription="@string/logo"/>
 
             <TextView
@@ -40,33 +40,35 @@
 
             <EditText
                 android:id="@+id/campoNombre"
-                android:layout_width="match_parent"
+                android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:hint="@string/name"
                 android:textAlignment="center"
                 android:textColor="@color/texto"
-                android:textColorHint="@color/texto"
+                android:textColorHint="@color/texto_pistas"
                 android:ems="10"
                 android:inputType="text"
                 android:background="@drawable/edittext_fondo"
                 android:layout_marginTop="32dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"/>
+                android:layout_marginEnd="32dp"
+                android:autofillHints="name" />
 
             <EditText
                 android:id="@+id/campoApellidos"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:hint="@string/surname"
                 android:textAlignment="center"
                 android:textColor="@color/texto"
-                android:textColorHint="@color/texto"
+                android:textColorHint="@color/texto_pistas"
                 android:ems="10"
                 android:inputType="text"
                 android:background="@drawable/edittext_fondo"
-                android:layout_marginTop="32dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"/>
+                android:layout_marginTop="-50dp"
+                android:layout_marginStart="190dp"
+                android:layout_marginEnd="32dp"
+                android:autofillHints="surname" />
 
             <EditText
                 android:id="@+id/campoUser"
@@ -75,13 +77,14 @@
                 android:hint="@string/email"
                 android:textAlignment="center"
                 android:textColor="@color/texto"
-                android:textColorHint="@color/texto"
+                android:textColorHint="@color/texto_pistas"
                 android:ems="10"
                 android:inputType="text"
                 android:background="@drawable/edittext_fondo"
                 android:layout_marginTop="32dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"/>
+                android:layout_marginEnd="32dp"
+                android:autofillHints="emailAddress" />
 
             <EditText
                 android:id="@+id/campoPassword"
@@ -90,13 +93,25 @@
                 android:hint="@string/password"
                 android:textAlignment="center"
                 android:textColor="@color/texto"
-                android:textColorHint="@color/texto"
+                android:textColorHint="@color/texto_pistas"
                 android:ems="10"
                 android:inputType="textPassword"
                 android:background="@drawable/edittext_fondo"
                 android:layout_marginTop="32dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"/>
+                android:layout_marginEnd="32dp"
+                android:autofillHints="password" />
+
+
+            <CheckBox
+                android:id="@+id/campoPrivacidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:text="@string/terms" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/botonSiguiente"

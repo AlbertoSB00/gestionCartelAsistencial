@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 app:srcCompat="@drawable/logo"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="64dp"
                 android:contentDescription="@string/logo"/>
 
             <TextView
@@ -32,7 +32,7 @@
                 android:text="@string/sign_in"
                 android:textSize="50sp"
                 android:textColor="@color/texto"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:textAlignment="center"
@@ -45,13 +45,14 @@
                 android:hint="@string/email"
                 android:textAlignment="center"
                 android:textColor="@color/texto"
-                android:textColorHint="@color/texto"
+                android:textColorHint="@color/texto_pistas"
                 android:ems="10"
                 android:inputType="text"
                 android:background="@drawable/edittext_fondo"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"/>
+                android:layout_marginEnd="32dp"
+                android:autofillHints="emailAddress" />
 
             <EditText
                 android:id="@+id/campoPassword"
@@ -60,13 +61,14 @@
                 android:hint="@string/password"
                 android:textAlignment="center"
                 android:textColor="@color/texto"
-                android:textColorHint="@color/texto"
+                android:textColorHint="@color/texto_pistas"
                 android:ems="10"
                 android:inputType="textPassword"
                 android:background="@drawable/edittext_fondo"
                 android:layout_marginTop="32dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"/>
+                android:layout_marginEnd="32dp"
+                android:autofillHints="password" />
 
             <TextView
                 android:id="@+id/textoOlvidastePassword"
@@ -81,7 +83,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/botonSiguiente"
                 style="@android:style/Widget.Button"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:background="@color/boton"
