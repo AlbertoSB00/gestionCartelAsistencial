@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.GestionCartelAsistencial" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -6,4 +6,12 @@
     </style>
 
     <style name="Theme.GestionCartelAsistencial" parent="Base.Theme.GestionCartelAsistencial" />
+    <style name="Theme.GestionCartelAsistencial.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.GestionCartelAsistencial.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.GestionCartelAsistencial.PopupOverlay"
+        parent="ThemeOverlay.AppCompat.Light" />
 </resources>

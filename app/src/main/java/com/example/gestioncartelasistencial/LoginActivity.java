@@ -65,8 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             if (resultSet.next()) {
                                 runOnUiThread(() -> {
-
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                                     startActivity(intent);
 
                                 });
@@ -91,9 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                     } else {
-                        runOnUiThread(() -> {
-                            Toast.makeText(LoginActivity.this, "Error al conectar con la bd", Toast.LENGTH_SHORT).show();
-                        });
+                        runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Error al conectar con la bd", Toast.LENGTH_SHORT).show());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

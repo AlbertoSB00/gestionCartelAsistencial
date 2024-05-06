@@ -84,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
                             int filasAfectadas = preparedStatement.executeUpdate();
                             if (filasAfectadas > 0) {
                                 runOnUiThread(() -> {
-                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(RegisterActivity.this, MenuActivity.class);
                                     startActivity(intent);
                                 });
                             } else {
