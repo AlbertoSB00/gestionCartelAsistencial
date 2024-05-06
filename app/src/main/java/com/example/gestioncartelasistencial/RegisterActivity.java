@@ -53,16 +53,21 @@ public class RegisterActivity extends AppCompatActivity {
                         EditText campoApellidos = findViewById(R.id.campoApellidos);
                         EditText campoCorreo = findViewById(R.id.campoUser);
                         EditText campoPassword = findViewById(R.id.campoPassword);
+                        EditText campoRepitePassword = findViewById(R.id.campoRepitePassword);
                         CheckBox checkboxPolitica = findViewById(R.id.campoPrivacidad);
 
                         String name = campoNombre.getText().toString();
                         String surname = campoApellidos.getText().toString();
                         String email = campoCorreo.getText().toString();
                         String password = campoPassword.getText().toString();
+                        String repitePassword = campoRepitePassword.getText().toString();
                         boolean policityCheck = checkboxPolitica.isChecked();
 
-                        if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty() || !policityCheck) {
+                        if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty() || repitePassword.isEmpty() || !policityCheck) {
                             runOnUiThread(() -> Toast.makeText(RegisterActivity.this, "Por favor, complete todos los campos y marque la política de privacidad", Toast.LENGTH_SHORT).show());
+                            return;
+                        } else if(!campoPassword.getText().toString().equals(campoRepitePassword.getText().toString())) {
+                            runOnUiThread(() -> Toast.makeText(RegisterActivity.this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show());
                             return;
                         }
 
@@ -90,9 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
                         }
 
                     } else {
-                        runOnUiThread(() -> {
-                            Toast.makeText(RegisterActivity.this, "Error al conectar con la bd", Toast.LENGTH_SHORT).show();
-                        });
+                        runOnUiThread(() -> Toast.makeText(RegisterActivity.this, "Error al conectar con la bd", Toast.LENGTH_SHORT).show());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
