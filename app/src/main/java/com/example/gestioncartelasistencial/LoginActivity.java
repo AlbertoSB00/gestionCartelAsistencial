@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             if (resultSet.next()) {
                                 runOnUiThread(() -> {
-                                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
 
                                 });
