@@ -98,7 +98,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         });
-
     }
 
     // Método para cifrar la contraseña usando SHA-256
