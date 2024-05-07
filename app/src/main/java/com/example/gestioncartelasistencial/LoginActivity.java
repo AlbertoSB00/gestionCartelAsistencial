@@ -98,6 +98,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         });
+
+        // Al pulsa ¿Olvidaste la contraseña?.
+        TextView textoOlvidastePassword = findViewById(R.id.textoOlvidastePassword);
+        textoOlvidastePassword.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     // Método para cifrar la contraseña usando SHA-256

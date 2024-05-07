@@ -13,4 +13,5 @@
     <string name="name">nombre</string>
     <string name="surname">apellidos</string>
     <string name="terms">He leído y acepto los términos y condiciones y la política de privacidad</string>
+    <string name="recover_account">Recuperar cuenta</string>
 </resources>
