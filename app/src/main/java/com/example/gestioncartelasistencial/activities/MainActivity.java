@@ -2,25 +2,72 @@ package com.example.gestioncartelasistencial.activities;
 
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.gestioncartelasistencial.R;
+import com.example.gestioncartelasistencial.fragments.DoctorFragment;
+import com.example.gestioncartelasistencial.fragments.HomeFragment;
+import com.example.gestioncartelasistencial.fragments.ReserveFragment;
+import com.example.gestioncartelasistencial.fragments.SettingsFragment;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
+
+    DrawerLayout drawerLayout;
+    Toolbar toolbar;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        toolbar = findViewById(R.id.toolbar);
+        drawerLayout = findViewById(R.id.drawer);
+        navigationView = findViewById(R.id.nav);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
+
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            int itemId = menuItem.getItemId();
+
+            if( itemId == R.id.home ) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+                fragmentR(new HomeFragment());
+
+            } else if( itemId == R.id.doctor ) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+                fragmentR(new DoctorFragment());
+
+            }else if( itemId == R.id.reserve ) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+                fragmentR(new ReserveFragment());
+
+            }else if( itemId == R.id.settings ) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+                fragmentR(new SettingsFragment());
+            }
+
+            return true;
         });
+
+    }
+
+    private void fragmentR(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.commit();
     }
 }

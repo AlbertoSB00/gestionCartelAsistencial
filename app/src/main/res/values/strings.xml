@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">gestionCartelAsistencial</string>
+    <string name="app_name">Andújar Salud</string>
     <string name="sign_in">Iniciar Sesión</string>
     <string name="email">correo</string>
     <string name="password">contraseña</string>
@@ -14,4 +14,13 @@
     <string name="surname">apellidos</string>
     <string name="terms">He leído y acepto los términos y condiciones y la política de privacidad</string>
     <string name="recover_account">Recuperar cuenta</string>
+    <string name="home">Inicio</string>
+    <string name="doctors">Nuestros profesionales</string>
+    <string name="reserve">Cita previa</string>
+    <string name="contact">Contacto</string>
+    <string name="settings">Ajustes</string>
+    <string name="open">Abierto</string>
+    <string name="close">Cerrado</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
