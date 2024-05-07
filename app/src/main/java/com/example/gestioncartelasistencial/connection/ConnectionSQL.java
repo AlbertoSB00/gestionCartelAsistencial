@@ -1,4 +1,4 @@
-package com.example.gestioncartelasistencial;
+package com.example.gestioncartelasistencial.connection;
 
 import android.util.Log;
 

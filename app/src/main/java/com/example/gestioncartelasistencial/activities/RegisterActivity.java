@@ -1,4 +1,4 @@
-package com.example.gestioncartelasistencial;
+package com.example.gestioncartelasistencial.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.gestioncartelasistencial.R;
+import com.example.gestioncartelasistencial.connection.ConnectionSQL;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
