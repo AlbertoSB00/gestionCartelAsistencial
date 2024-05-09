@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     NavigationView navigationView;
     TextView userEmailTextView;
+    View headerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +43,20 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.nav);
-        View headerView = navigationView.getHeaderView(0);
+        headerView = navigationView.getHeaderView(0);
         userEmailTextView = headerView.findViewById(R.id.user_email_textview);
         userEmailTextView.setText(correo);
 
         // Seteo el primer fragment.
         fragmentR(new HomeFragment());
 
+        // Inicializo la barra de navegación.
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
 
+        // Lógica para el menú y cambio de fragments.
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             int itemId = menuItem.getItemId();
 
@@ -79,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Método para cambiar de fragment.
     private void fragmentR(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

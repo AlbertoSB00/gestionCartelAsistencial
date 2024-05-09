@@ -88,6 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
                             if (filasAfectadas > 0) {
                                 runOnUiThread(() -> {
                                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                    intent.putExtra("CORREO", email);
                                     startActivity(intent);
                                 });
                             } else {
