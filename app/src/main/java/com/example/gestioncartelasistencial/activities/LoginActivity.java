@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (resultSet.next()) {
                                 runOnUiThread(() -> {
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    intent.putExtra("CORREO", user);
                                     startActivity(intent);
 
                                 });
