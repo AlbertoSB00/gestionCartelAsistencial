@@ -3,14 +3,108 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.DoctorFragment">
+    tools:context=".fragments.DoctorFragment"
+    android:background="@color/fondo">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:text="doctor" />
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textoIniciarSesion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ours_profesionals"
+                android:textSize="28sp"
+                android:textColor="@color/texto"
+                android:layout_marginTop="128dp"
+                android:layout_marginStart="32dp"
+                android:textAlignment="textStart"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textoSubInicioSesion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sub_ours_profesionals"
+                android:textSize="13sp"
+                android:textColor="@color/texto"
+                android:layout_marginStart="32dp"
+                android:textAlignment="textStart" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edittext_fondo"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/psicologia_doc"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="-110dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/psicologia"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="50dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_day"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/psicologia_horario_dia"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="-26dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_time"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/psicologia_horario_hora"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="-26dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:src="@drawable/logo"
+                android:layout_marginStart="220dp"
+                android:layout_marginTop="-90dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>

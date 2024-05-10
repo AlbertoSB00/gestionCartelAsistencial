@@ -26,6 +26,14 @@
     <string name="open">Abierto</string>
     <string name="close">Cerrado</string>
 
+    <string name="ours_profesionals">NUESTROS DOCTORES</string>
+    <string name="sub_ours_profesionals">Estos son los profesionales que trabajan en Andújar Salud</string>
+
+    <string name="psicologia_doc">Dra. Francisca Barba Colmenero</string>
+    <string name="psicologia">Psicóloga</string>
+    <string name="psicologia_horario_dia">Miércoles y Jueves</string>
+    <string name="psicologia_horario_hora">Mañana y tarde</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
