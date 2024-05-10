@@ -53,20 +53,18 @@ public class RegisterActivity extends AppCompatActivity {
                     if (connect != null) {
 
                         EditText campoNombre = findViewById(R.id.campoNombre);
-                        EditText campoApellidos = findViewById(R.id.campoApellidos);
                         EditText campoCorreo = findViewById(R.id.campoUser);
                         EditText campoPassword = findViewById(R.id.campoPassword);
                         EditText campoRepitePassword = findViewById(R.id.campoRepitePassword);
                         CheckBox checkboxPolitica = findViewById(R.id.campoPrivacidad);
 
                         String name = campoNombre.getText().toString();
-                        String surname = campoApellidos.getText().toString();
                         String email = campoCorreo.getText().toString();
                         String password = campoPassword.getText().toString();
                         String repitePassword = campoRepitePassword.getText().toString();
                         boolean policityCheck = checkboxPolitica.isChecked();
 
-                        if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty() || repitePassword.isEmpty() || !policityCheck) {
+                        if (name.isEmpty() || email.isEmpty() || password.isEmpty() || repitePassword.isEmpty() || !policityCheck) {
                             runOnUiThread(() -> Toast.makeText(RegisterActivity.this, "Por favor, complete todos los campos y marque la política de privacidad", Toast.LENGTH_SHORT).show());
                             return;
                         } else if(!campoPassword.getText().toString().equals(campoRepitePassword.getText().toString())) {
@@ -77,12 +75,11 @@ public class RegisterActivity extends AppCompatActivity {
                         String hashedPassword = cifrarPassword(password);
 
                         // Realizar la consulta SQL para insertar un nuevo usuario en la tabla
-                        String query = "INSERT INTO usuario (nombre, apellidos, correo, contraseña) VALUES (?, ?, ?, ?)";
+                        String query = "INSERT INTO usuario (nombre, correo, contraseña) VALUES (?, ?, ?)";
                         try (PreparedStatement preparedStatement = connect.prepareStatement(query)) {
                             preparedStatement.setString(1, name);
-                            preparedStatement.setString(2, surname);
-                            preparedStatement.setString(3, email);
-                            preparedStatement.setString(4, hashedPassword);
+                            preparedStatement.setString(2, email);
+                            preparedStatement.setString(3, hashedPassword);
 
                             int filasAfectadas = preparedStatement.executeUpdate();
                             if (filasAfectadas > 0) {
