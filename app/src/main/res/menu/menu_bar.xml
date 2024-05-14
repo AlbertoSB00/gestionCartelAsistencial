@@ -26,6 +26,11 @@
             android:icon="@drawable/nav_settings"
             android:title="@string/settings"/>
 
+        <item
+            android:id="@+id/admin"
+            android:title="@string/admin_mode"
+            android:icon="@drawable/nav_reserve"/>
+
     </group>
 
 </menu>

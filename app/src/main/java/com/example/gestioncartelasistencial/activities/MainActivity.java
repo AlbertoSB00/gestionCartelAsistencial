@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.gestioncartelasistencial.R;
+import com.example.gestioncartelasistencial.fragments.AdminFragment;
 import com.example.gestioncartelasistencial.fragments.DoctorFragment;
 import com.example.gestioncartelasistencial.fragments.HomeFragment;
 import com.example.gestioncartelasistencial.fragments.ReserveFragment;
@@ -75,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
             }else if( itemId == R.id.settings ) {
                 drawerLayout.closeDrawer(GravityCompat.START);
                 fragmentR(new SettingsFragment());
+
+            }else if( itemId == R.id.admin ) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+                fragmentR(new AdminFragment());
             }
 
             return true;
