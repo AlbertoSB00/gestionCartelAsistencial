@@ -1,9 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@color/fondo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.InsertActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="120dp"
+                android:layout_marginTop="16dp">
+
+                <ImageView
+                    android:id="@+id/imagenLogo"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    app:srcCompat="@drawable/logo"
+                    android:contentDescription="@string/logo"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/app_name"
+                    android:textColor="@color/texto"
+                    android:textSize="22sp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="5dp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textoInsertar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/insert"
+                android:textSize="28sp"
+                android:textColor="@color/texto"
+                android:layout_marginTop="64dp"
+                android:layout_marginStart="32dp"
+                android:textAlignment="textStart"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textoSubInicioSesion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sub_insert"
+                android:textSize="16sp"
+                android:textColor="@color/texto"
+                android:layout_marginStart="32dp"
+                android:textAlignment="textStart" />
+
+            <EditText
+                android:id="@+id/campoNIF"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:hint="@string/nif"
+                android:textAlignment="center"
+                android:textColor="@color/texto"
+                android:textColorHint="@color/texto_pistas"
+                android:ems="10"
+                android:inputType="text"
+                android:background="@drawable/edittext_fondo"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:autofillHints="emailAddress" />
+
+            <EditText
+                android:id="@+id/campoName"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:hint="@string/name"
+                android:textAlignment="center"
+                android:textColor="@color/texto"
+                android:textColorHint="@color/texto_pistas"
+                android:ems="10"
+                android:inputType="text"
+                android:background="@drawable/edittext_fondo"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:autofillHints="emailAddress" />
+
+            <EditText
+                android:id="@+id/campoSurname"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:hint="@string/surname"
+                android:textAlignment="center"
+                android:textColor="@color/texto"
+                android:textColorHint="@color/texto_pistas"
+                android:ems="10"
+                android:inputType="text"
+                android:background="@drawable/edittext_fondo"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:autofillHints="emailAddress" />
+
+            <EditText
+                android:id="@+id/campoPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:hint="@string/phone_number"
+                android:textAlignment="center"
+                android:textColor="@color/texto"
+                android:textColorHint="@color/texto_pistas"
+                android:ems="10"
+                android:inputType="phone"
+                android:background="@drawable/edittext_fondo"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:autofillHints="emailAddress" />
+
+            <EditText
+                android:id="@+id/campoAddress"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:hint="@string/address"
+                android:textAlignment="center"
+                android:textColor="@color/texto"
+                android:textColorHint="@color/texto_pistas"
+                android:ems="10"
+                android:inputType="text"
+                android:background="@drawable/edittext_fondo"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:autofillHints="emailAddress" />
+
+            <EditText
+                android:id="@+id/campoEmail"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:hint="@string/email"
+                android:textAlignment="center"
+                android:textColor="@color/texto"
+                android:textColorHint="@color/texto_pistas"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/edittext_fondo"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:autofillHints="emailAddress" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/botonSiguiente"
+                style="@android:style/Widget.Button"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@color/boton"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/texto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/next" />
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
