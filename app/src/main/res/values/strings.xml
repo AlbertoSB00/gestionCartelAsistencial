@@ -2,6 +2,7 @@
     <string name="app_name">Andújar Salud</string>
     <string name="sign_in">INICIAR SESIÓN</string>
     <string name="sub_sign_in">Acceda a su cuenta de Andújar Salud</string>
+    <string name="sub_sign_in_admin">Entra como administrador a la app</string>
     <string name="email">correo</string>
     <string name="password">contraseña</string>
     <string name="repeat_password">repita contraseña</string>

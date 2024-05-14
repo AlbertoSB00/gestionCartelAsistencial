@@ -24,12 +24,7 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Variables.
-    DrawerLayout drawerLayout;
-    Toolbar toolbar;
-    NavigationView navigationView;
-    TextView userEmailTextView;
-    View headerView;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +36,11 @@ public class MainActivity extends AppCompatActivity {
         String correo = intent.getStringExtra("CORREO");
 
         // Inicializo las variables.
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         drawerLayout = findViewById(R.id.drawer);
-        navigationView = findViewById(R.id.nav);
-        headerView = navigationView.getHeaderView(0);
-        userEmailTextView = headerView.findViewById(R.id.user_email_textview);
+        NavigationView navigationView = findViewById(R.id.nav);
+        View headerView = navigationView.getHeaderView(0);
+        TextView userEmailTextView = headerView.findViewById(R.id.user_email_textview);
         userEmailTextView.setText(correo);
 
         // Seteo el primer fragment.
@@ -61,34 +56,24 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             int itemId = menuItem.getItemId();
 
-            if( itemId == R.id.home ) {
-                drawerLayout.closeDrawer(GravityCompat.START);
+            if (itemId == R.id.home) {
                 fragmentR(new HomeFragment());
-
-            } else if( itemId == R.id.doctor ) {
-                drawerLayout.closeDrawer(GravityCompat.START);
+            } else if (itemId == R.id.doctor) {
                 fragmentR(new DoctorFragment());
-
-            }else if( itemId == R.id.reserve ) {
-                drawerLayout.closeDrawer(GravityCompat.START);
+            } else if (itemId == R.id.reserve) {
                 fragmentR(new ReserveFragment());
-
-            }else if( itemId == R.id.settings ) {
-                drawerLayout.closeDrawer(GravityCompat.START);
+            } else if (itemId == R.id.settings) {
                 fragmentR(new SettingsFragment());
-
-            }else if( itemId == R.id.admin ) {
-                drawerLayout.closeDrawer(GravityCompat.START);
+            } else if (itemId == R.id.admin) {
                 fragmentR(new AdminFragment());
             }
 
+            drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
-
     }
 
-    // Método para cambiar de fragment.
-    private void fragmentR(Fragment fragment){
+    private void fragmentR(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
