@@ -47,4 +47,5 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="welcome">Bienvenido/a a la App de Andújar Salud</string>
+    <string name="back">back</string>
 </resources>

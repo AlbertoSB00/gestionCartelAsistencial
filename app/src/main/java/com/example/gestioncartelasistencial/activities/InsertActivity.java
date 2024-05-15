@@ -1,9 +1,11 @@
 package com.example.gestioncartelasistencial.activities;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +33,8 @@ public class InsertActivity extends AppCompatActivity {
         setContentView(R.layout.activity_insert);
 
         // Inicializar las vistas
+        ImageView volver = findViewById(R.id.volver);
+
         campoNIF = findViewById(R.id.campoNIF);
         campoName = findViewById(R.id.campoName);
         campoSurname = findViewById(R.id.campoSurname);
@@ -38,6 +42,13 @@ public class InsertActivity extends AppCompatActivity {
         campoAddress = findViewById(R.id.campoAddress);
         campoEmail = findViewById(R.id.campoEmail);
         Button botonSiguiente = findViewById(R.id.botonSiguiente);
+
+        // Al pulsar "Volver".
+        volver.setOnClickListener(v -> {
+            Intent intent = new Intent(InsertActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
 
         botonSiguiente.setOnClickListener(mouseEvent -> {
             // Compruebamos que al menos esté el nif.

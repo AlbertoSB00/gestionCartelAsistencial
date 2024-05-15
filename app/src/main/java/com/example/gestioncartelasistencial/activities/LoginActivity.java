@@ -34,13 +34,16 @@ public class LoginActivity extends AppCompatActivity {
         campoPassword = findViewById(R.id.campoPassword);
         Button botonSiguiente = findViewById(R.id.botonSiguiente);
         TextView textoRegistrateAhora = findViewById(R.id.textoRegistrateAhora);
-        TextView textoOlvidastePassword = findViewById(R.id.textoOlvidastePassword);
+        // TextView textoOlvidastePassword = findViewById(R.id.textoOlvidastePassword);
 
+        /*
         // Al pulsa ¿Olvidaste la contraseña?.
         textoOlvidastePassword.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
             startActivity(intent);
+            finish();
         });
+        */
 
         // Al pulsar "Siguiente".
         botonSiguiente.setOnClickListener(v -> {
@@ -60,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         textoRegistrateAhora.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
+            finish();
         });
 
     }

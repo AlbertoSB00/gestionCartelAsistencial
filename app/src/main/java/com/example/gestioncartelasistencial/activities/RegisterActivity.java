@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,12 +34,21 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        ImageView volver = findViewById(R.id.volver);
+
         campoNombre = findViewById(R.id.campoNombre);
         campoUser = findViewById(R.id.campoUser);
         campoPassword = findViewById(R.id.campoPassword);
         campoRepitePassword = findViewById(R.id.campoRepitePassword);
         campoPrivacidad = findViewById(R.id.campoPrivacidad);
         Button botonSiguiente = findViewById(R.id.botonSiguiente);
+
+        // Al pulsar "Volver".
+        volver.setOnClickListener(v -> {
+           Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+           startActivity(intent);
+           finish();
+        });
 
         // Al pulsar "Siguiente".
         botonSiguiente.setOnClickListener(v -> {
