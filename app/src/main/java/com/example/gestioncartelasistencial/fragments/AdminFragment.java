@@ -87,7 +87,7 @@ public class AdminFragment extends Fragment {
     }
 
     private void ordenServer(String user, String passwordHashed) {
-        new AuthenticationTask().execute("LOGIN", user, passwordHashed);
+        new AuthenticationTask().execute("ADMIN", user, passwordHashed);
     }
 
     private class AuthenticationTask extends AsyncTask<String, Void, String> {
@@ -123,12 +123,12 @@ public class AdminFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
-            if (result.equals("LOGIN_SUCCESS")) {
+            if (result.equals("ADMIN_SUCCESS")) {
                 // Aquí puedes abrir la actividad principal de tu aplicación
                 Intent intent = new Intent(getActivity(), InsertActivity.class);
                 startActivity(intent);
 
-            } else if (result.equals("LOGIN_FAILED")) {
+            } else if (result.equals("ADMIN_FAILED")) {
                 Toast.makeText(getActivity(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
 
             } else {

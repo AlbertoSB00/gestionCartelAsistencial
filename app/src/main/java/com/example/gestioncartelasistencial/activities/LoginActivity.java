@@ -1,7 +1,9 @@
 package com.example.gestioncartelasistencial.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -9,104 +11,54 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.gestioncartelasistencial.R;
-import com.example.gestioncartelasistencial.connection.ConnectionSQL;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class LoginActivity extends AppCompatActivity {
 
-    ConnectionSQL connection;
-    Connection connect;
+    private EditText campoUser;
+    private EditText campoPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        connection = new ConnectionSQL();
-
-        // Al pulsar "Regístrate ahora".
+        campoUser = findViewById(R.id.campoUser);
+        campoPassword = findViewById(R.id.campoPassword);
+        Button botonSiguiente = findViewById(R.id.botonSiguiente);
         TextView textoRegistrateAhora = findViewById(R.id.textoRegistrateAhora);
-        textoRegistrateAhora.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        TextView textoOlvidastePassword = findViewById(R.id.textoOlvidastePassword);
+
+        // Al pulsa ¿Olvidaste la contraseña?.
+        textoOlvidastePassword.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
             startActivity(intent);
         });
 
-        // Al pulsar "Iniciar sesión".
-        TextView botonIniciarSesion = findViewById(R.id.botonSiguiente);
-        botonIniciarSesion.setOnClickListener(v -> {
+        // Al pulsar "Siguiente".
+        botonSiguiente.setOnClickListener(v -> {
+            String user = campoUser.getText().toString().trim();
+            String password = campoPassword.getText().toString().trim();
+            String hashPassword = cifrarPassword(password);
 
-            ExecutorService executorService = Executors.newSingleThreadExecutor();
-            executorService.execute(() -> {
-                try {
-                    connect = connection.CONN();
-                    if (connect != null) {
+            // Validamos que los campos no estén vacíos.
+            if (user.isEmpty() || password.isEmpty()) {
+                Toast.makeText(LoginActivity.this, "Por favor, rellene todos los campos.", Toast.LENGTH_SHORT).show();
+            }
 
-                        EditText campoUser = findViewById(R.id.campoUser);
-                        EditText campoPassword = findViewById(R.id.campoPassword);
-
-                        String user = campoUser.getText().toString();
-                        String password = campoPassword.getText().toString();
-                        String hashedPassword = cifrarPassword(password);
-
-                        // Realizar la consulta SQL para buscar al usuario por su correo electrónico y contraseña
-                        String query = "SELECT * FROM usuario WHERE correo = ? AND contraseña = ?";
-                        PreparedStatement preparedStatement = null;
-                        ResultSet resultSet = null;
-                        try {
-                            preparedStatement = connect.prepareStatement(query);
-                            preparedStatement.setString(1, user);
-                            preparedStatement.setString(2, hashedPassword);
-                            resultSet = preparedStatement.executeQuery();
-
-                            if (resultSet.next()) {
-                                runOnUiThread(() -> {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    intent.putExtra("CORREO", user);
-                                    startActivity(intent);
-
-                                });
-                            } else {
-                                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Correo electrónico o contraseña incorrectos", Toast.LENGTH_SHORT).show());
-                            }
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-
-                        } finally {
-                            try {
-                                if (resultSet != null) {
-                                    resultSet.close();
-                                }
-                                if (preparedStatement != null) {
-                                    preparedStatement.close();
-                                }
-
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                    } else {
-                        runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Error al conectar con la bd", Toast.LENGTH_SHORT).show());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
-                }
-            });
+            ordenServer(user, hashPassword);
         });
 
-        // Al pulsa ¿Olvidaste la contraseña?.
-        TextView textoOlvidastePassword = findViewById(R.id.textoOlvidastePassword);
-        textoOlvidastePassword.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+        // Al pulsar "Regístrate ahora".
+        textoRegistrateAhora.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
         });
 
@@ -129,6 +81,58 @@ public class LoginActivity extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private void ordenServer(String user, String hashPassword) {
+        new AuthenticationTask().execute("LOGIN", user, hashPassword);
+    }
+
+    private class AuthenticationTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            String response;
+
+            try{
+                Socket socket = new Socket("192.168.1.10", 12345);
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+                // Enviamos orden al servidor.
+                out.println(strings[0]);
+
+                // Enviamos credenciales al servidor.
+                out.println(strings[1]);
+                out.println(strings[2]);
+
+                // Leemos respuesta.
+                response = in.readLine();
+
+                // Cerramos el socket.
+                out.close();
+                in.close();
+                socket.close();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (result.equals("LOGIN_SUCCESS")) {
+                // Aquí puedes abrir la actividad principal de tu aplicación
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra("CORREO", campoUser.getText().toString().trim());
+                startActivity(intent);
+
+            } else if (result.equals("LOGIN_FAILED")) {
+                Toast.makeText(LoginActivity.this, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+
+            } else {
+                Toast.makeText(LoginActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

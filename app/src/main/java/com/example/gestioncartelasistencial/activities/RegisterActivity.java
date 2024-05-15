@@ -1,108 +1,67 @@
 package com.example.gestioncartelasistencial.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.gestioncartelasistencial.R;
-import com.example.gestioncartelasistencial.connection.ConnectionSQL;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    ConnectionSQL connection;
-    Connection connect;
+    private EditText campoNombre;
+    private EditText campoUser;
+    private EditText campoPassword;
+    private EditText campoRepitePassword;
+    private CheckBox campoPrivacidad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
-        connection = new ConnectionSQL();
+        campoNombre = findViewById(R.id.campoNombre);
+        campoUser = findViewById(R.id.campoUser);
+        campoPassword = findViewById(R.id.campoPassword);
+        campoRepitePassword = findViewById(R.id.campoRepitePassword);
+        campoPrivacidad = findViewById(R.id.campoPrivacidad);
+        Button botonSiguiente = findViewById(R.id.botonSiguiente);
 
-        // Al pulsar "Iniciar sesión".
-        TextView botonIniciarSesion = findViewById(R.id.botonSiguiente);
-        botonIniciarSesion.setOnClickListener(v -> {
+        // Al pulsar "Siguiente".
+        botonSiguiente.setOnClickListener(v -> {
+            String nombre = campoNombre.getText().toString().trim();
+            String user = campoUser.getText().toString().trim();
+            String password = campoPassword.getText().toString().trim();
+            String repitePassword = campoRepitePassword.getText().toString().trim();
+            String hashedPassword = cifrarPassword(password);
+            boolean privacidad = campoPrivacidad.isChecked();
 
-            ExecutorService executorService = Executors.newSingleThreadExecutor();
-            executorService.execute(() -> {
-                try {
-                    connect = connection.CONN();
-                    if (connect != null) {
+            // Validamos que los campos no estén vacíos.
+            if (nombre.isEmpty() || user.isEmpty() || password.isEmpty() || repitePassword.isEmpty()) {
+                Toast.makeText(RegisterActivity.this, "Por favor, rellene todos los campos.", Toast.LENGTH_SHORT).show();
 
-                        EditText campoNombre = findViewById(R.id.campoNombre);
-                        EditText campoCorreo = findViewById(R.id.campoUser);
-                        EditText campoPassword = findViewById(R.id.campoPassword);
-                        EditText campoRepitePassword = findViewById(R.id.campoRepitePassword);
-                        CheckBox checkboxPolitica = findViewById(R.id.campoPrivacidad);
+            } else if (!privacidad) {
+                Toast.makeText(this, "Por favor, lea y acepte la política de privacidad.", Toast.LENGTH_SHORT).show();
 
-                        String name = campoNombre.getText().toString();
-                        String email = campoCorreo.getText().toString();
-                        String password = campoPassword.getText().toString();
-                        String repitePassword = campoRepitePassword.getText().toString();
-                        boolean policityCheck = checkboxPolitica.isChecked();
+            } else if (!password.equals(repitePassword)) {
+                Toast.makeText(RegisterActivity.this, "Las contraseña no coinciden.", Toast.LENGTH_SHORT).show();
 
-                        if (name.isEmpty() || email.isEmpty() || password.isEmpty() || repitePassword.isEmpty() || !policityCheck) {
-                            runOnUiThread(() -> Toast.makeText(RegisterActivity.this, "Por favor, complete todos los campos y marque la política de privacidad", Toast.LENGTH_SHORT).show());
-                            return;
-                        } else if(!campoPassword.getText().toString().equals(campoRepitePassword.getText().toString())) {
-                            runOnUiThread(() -> Toast.makeText(RegisterActivity.this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show());
-                            return;
-                        }
-
-                        String hashedPassword = cifrarPassword(password);
-
-                        // Realizar la consulta SQL para insertar un nuevo usuario en la tabla
-                        String query = "INSERT INTO usuario (nombre, correo, contraseña) VALUES (?, ?, ?)";
-                        try (PreparedStatement preparedStatement = connect.prepareStatement(query)) {
-                            preparedStatement.setString(1, name);
-                            preparedStatement.setString(2, email);
-                            preparedStatement.setString(3, hashedPassword);
-
-                            int filasAfectadas = preparedStatement.executeUpdate();
-                            if (filasAfectadas > 0) {
-                                runOnUiThread(() -> {
-                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                    intent.putExtra("CORREO", email);
-                                    startActivity(intent);
-                                });
-                            } else {
-                                runOnUiThread(() -> Toast.makeText(RegisterActivity.this, "Error al registrar usuario", Toast.LENGTH_SHORT).show());
-                            }
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-
-                    } else {
-                        runOnUiThread(() -> Toast.makeText(RegisterActivity.this, "Error al conectar con la bd", Toast.LENGTH_SHORT).show());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
-                }
-            });
+            } else {
+                ordenServer(nombre, user, hashedPassword);
+            }
         });
     }
 
@@ -125,4 +84,57 @@ public class RegisterActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    private void ordenServer(String nombre, String user, String passwordHashed) {
+        new AuthenticationTask().execute("REGISTER", nombre, user, passwordHashed);
+    }
+
+    private class AuthenticationTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            String response;
+
+            try{
+                Socket socket = new Socket("192.168.1.10", 12345);
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+                // Enviamos orden al servidor.
+                out.println(strings[0]);
+
+                // Enviamos credenciales al servidor.
+                out.println(strings[1]);
+                out.println(strings[2]);
+                out.println(strings[3]);
+
+                // Leemos respuesta.
+                response = in.readLine();
+
+                // Cerramos el socket.
+                out.close();
+                in.close();
+                socket.close();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (result.equals("REGISTER_SUCCESS")) {
+                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                intent.putExtra("CORREO", campoUser.getText().toString().trim());
+                startActivity(intent);
+
+            } else if (result.equals("REGISTER_FAILED")) {
+                Toast.makeText(RegisterActivity.this, "Algo ha ido mal...", Toast.LENGTH_SHORT).show();
+
+            } else {
+                Toast.makeText(RegisterActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 }
