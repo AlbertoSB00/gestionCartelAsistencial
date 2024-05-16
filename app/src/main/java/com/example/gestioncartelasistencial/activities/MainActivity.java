@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
                 fragmentR(new SettingsFragment());
             } else if (itemId == R.id.admin) {
                 fragmentR(new AdminFragment());
+            }else if (itemId == R.id.log_out) {
+                finish();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
             }
 
             drawerLayout.closeDrawer(GravityCompat.START);

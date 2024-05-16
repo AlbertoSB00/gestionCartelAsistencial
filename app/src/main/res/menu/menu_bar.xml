@@ -31,6 +31,14 @@
             android:title="@string/admin_mode"
             android:icon="@drawable/nav_reserve"/>
 
+        <item
+            android:title=""/>
+
+        <item
+            android:id="@+id/log_out"
+            android:title="@string/log_out"
+            android:icon="@drawable/icon_logout"/>
+
     </group>
 
 </menu>

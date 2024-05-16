@@ -27,6 +27,7 @@
     <string name="open">Abierto</string>
     <string name="close">Cerrado</string>
     <string name="admin_mode">Acceder como administrador</string>
+    <string name="log_out">Cerrar sesión</string>
 
     <string name="ours_profesionals">NUESTROS DOCTORES</string>
     <string name="sub_ours_profesionals">Estos son los profesionales que trabajan en Andújar Salud</string>
