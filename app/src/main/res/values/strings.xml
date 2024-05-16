@@ -36,6 +36,36 @@
     <string name="psicologia_horario_dia">Miércoles y Jueves</string>
     <string name="psicologia_horario_hora">Mañana y tarde</string>
 
+    <string name="dermatologia_doc">Dr. Baldomero García Mir</string>
+    <string name="dermatologia">Dermatólogo</string>
+    <string name="dermatologia_horario_dia">Martes</string>
+    <string name="dermatologia_horario_hora">Tarde</string>
+    
+    <string name="traumatologia_doc">Dr. José Manuel Moreno Hidalgo</string>
+    <string name="traumatologia">Traumatología</string>
+    <string name="traumatologia_horario_dia">Lunes y Martes</string>
+    <string name="traumatologia_horario_hora">Tarde</string>
+
+    <string name="psiquiatria_doc">Dr. Jorge Auladell Saniger</string>
+    <string name="psiquiatria">Psiquiatría</string>
+    <string name="psiquiatria_horario_dia">Lunes</string>
+    <string name="psiquiatria_horario_hora">Tarde</string>
+
+    <string name="otorrinolaringologia_doc">Dr. José María Pérez-Barrio Pedraza</string>
+    <string name="otorrinolaringologia">Otorrinolaringología</string>
+    <string name="otorrinolaringologia_horario_dia">Lunes y Jueves</string>
+    <string name="otorrinolaringologia_horario_hora">Mañana y tarde</string>
+
+    <string name="oftalmologia_doc">Dr. Francisco Jiménez Pertíñez</string>
+    <string name="oftalmologia">Oftalmología</string>
+    <string name="oftalmologia_horario_dia">Miércoles y Jueves</string>
+    <string name="oftalmologia_horario_hora">Tarde</string>
+
+    <string name="widex_doc">WIDEX</string>
+    <string name="widex">Adaptación de Audífonos</string>
+    <string name="widex_horario_dia">Lunes a Viernes</string>
+    <string name="widex_horario_hora">Mañana y tarde</string>
+
     <string name="insert">INSERTAR PACIENTE</string>
     <string name="sub_insert">Introduzca un nuevo paciente</string>
     <string name="nif">nif</string>

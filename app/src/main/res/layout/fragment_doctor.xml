@@ -23,7 +23,7 @@
                 android:text="@string/ours_profesionals"
                 android:textSize="28sp"
                 android:textColor="@color/texto"
-                android:layout_marginTop="128dp"
+                android:layout_marginTop="64dp"
                 android:layout_marginStart="32dp"
                 android:textAlignment="textStart"
                 android:textStyle="bold" />
@@ -41,7 +41,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/edittext_fondo"/>
@@ -67,6 +67,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
+                android:contentDescription="@string/logo"
                 android:src="@drawable/icon_day"
                 android:layout_marginStart="29dp"
                 android:layout_marginTop="5dp"/>
@@ -83,6 +84,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
+                android:contentDescription="@string/logo"
                 android:src="@drawable/icon_time"
                 android:layout_marginStart="29dp"
                 android:layout_marginTop="5dp"/>
@@ -99,7 +101,416 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="90dp"
+                android:contentDescription="@string/logo"
                 android:src="@drawable/logo"
+                android:layout_marginStart="220dp"
+                android:layout_marginTop="-90dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edittext_fondo"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/dermatologia_doc"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="-110dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/dermatologia"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="50dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/icon_day"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/dermatologia_horario_dia"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="-26dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/icon_time"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/dermatologia_horario_hora"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="-26dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/logo"
+                android:layout_marginStart="220dp"
+                android:layout_marginTop="-90dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edittext_fondo"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/traumatologia_doc"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="-110dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/traumatologia"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="50dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/icon_day"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/traumatologia_horario_dia"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="-26dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/icon_time"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/traumatologia_horario_hora"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="-26dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:src="@drawable/logo"
+                android:contentDescription="@string/logo"
+                android:layout_marginStart="220dp"
+                android:layout_marginTop="-90dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edittext_fondo"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/psiquiatria_doc"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="-110dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/psiquiatria"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="50dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_day"
+                android:contentDescription="@string/logo"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/psiquiatria_horario_dia"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="-26dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:contentDescription="@string/logo"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_time"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/psiquiatria_horario_hora"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="-26dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/logo"
+                android:layout_marginStart="220dp"
+                android:layout_marginTop="-90dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edittext_fondo"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/otorrinolaringologia_doc"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="-110dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/otorrinolaringologia"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="50dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/icon_day"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/otorrinolaringologia_horario_dia"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="-26dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/icon_time"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/otorrinolaringologia_horario_hora"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="-26dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/logo"
+                android:layout_marginStart="220dp"
+                android:layout_marginTop="-90dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edittext_fondo"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/oftalmologia_doc"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="-110dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/oftalmologia"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="50dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/icon_day"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/oftalmologia_horario_dia"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="-26dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/icon_time"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/oftalmologia_horario_hora"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="-26dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/logo"
+                android:layout_marginStart="220dp"
+                android:layout_marginTop="-90dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edittext_fondo"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/widex_doc"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="-110dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/widex"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="50dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/icon_day"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/widex_horario_dia"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="-26dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/icon_time"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/widex_horario_hora"
+                android:textColor="@color/texto"
+                android:textSize="14sp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="-26dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:src="@drawable/logo"
+                android:contentDescription="@string/logo"
                 android:layout_marginStart="220dp"
                 android:layout_marginTop="-90dp"/>
 
