@@ -19,7 +19,7 @@
         android:id="@+id/name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/welcome"
+        android:text="@string/welcome_menu"
         android:textColor="@color/white"
         android:textSize="14sp"
         android:layout_marginTop="16dp"/>
