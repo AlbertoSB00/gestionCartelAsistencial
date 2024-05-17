@@ -1,7 +1,6 @@
 package com.example.gestioncartelasistencial.activities;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class InsertActivity extends AppCompatActivity {
 
@@ -54,6 +55,7 @@ public class InsertActivity extends AppCompatActivity {
             // Compruebamos que al menos esté el nif.
             if (campoNIF.getText().toString().isEmpty()) {
                 Toast.makeText(InsertActivity.this, "Por favor, rellene el campo NIF.", Toast.LENGTH_SHORT).show();
+                return;
             }
 
             String nif = campoNIF.getText().toString();
@@ -68,65 +70,50 @@ public class InsertActivity extends AppCompatActivity {
     }
 
     private void orden(String nif, String name, String surname, String phoneNumber, String address, String email) {
-        new AuthenticationTask().execute("EXIST", nif, name, surname, phoneNumber, address, email);
-    }
-
-    private class AuthenticationTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... strings) {
-            String response;
-
-            try {
-                Socket socket = new Socket("192.168.1.10", 12345);
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            try (Socket socket = new Socket("192.168.1.10", 12345);
+                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
                 // Enviamos orden al servidor.
-                out.println(strings[0]);
+                out.println("EXIST");
 
-                // Enviamos nif al servidor.
-                out.println(strings[1]);
-                out.println(strings[2]);
-                out.println(strings[3]);
-                out.println(strings[4]);
-                out.println(strings[5]);
-                out.println(strings[6]);
+                // Enviamos los datos al servidor.
+                out.println(nif);
+                out.println(name);
+                out.println(surname);
+                out.println(phoneNumber);
+                out.println(address);
+                out.println(email);
 
                 // Leemos respuesta.
-                response = in.readLine();
+                String response = in.readLine();
 
-                // Cerramos el socket.
-                out.close();
-                in.close();
-                socket.close();
+                runOnUiThread(() -> {
+                    switch (response) {
+                        case "EXIST_SUCCESS":
+                            Toast.makeText(InsertActivity.this, "Paciente insertado", Toast.LENGTH_SHORT).show();
+                            campoNIF.setText("");
+                            campoName.setText("");
+                            campoSurname.setText("");
+                            campoPhoneNumber.setText("");
+                            campoAddress.setText("");
+                            campoEmail.setText("");
+                            break;
+                        case "EXIST_FAILED":
+                            Toast.makeText(InsertActivity.this, "Este paciente ya existe", Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                            Toast.makeText(InsertActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                });
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                runOnUiThread(() -> Toast.makeText(InsertActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show());
             }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            switch (result) {
-                case "EXIST_SUCCESS":
-                    Toast.makeText(InsertActivity.this, "Paciente insertado", Toast.LENGTH_SHORT).show();
-                    campoNIF.setText("");
-                    campoName.setText("");
-                    campoSurname.setText("");
-                    campoPhoneNumber.setText("");
-                    campoAddress.setText("");
-                    campoEmail.setText("");
-                    break;
-
-                case "EXIST_FAILED":
-                    Toast.makeText(InsertActivity.this, "Este paciente ya existe", Toast.LENGTH_SHORT).show();
-                    break;
-
-                default:
-                    Toast.makeText(InsertActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
-                    break;
-            }
-        }
+        });
     }
 }
