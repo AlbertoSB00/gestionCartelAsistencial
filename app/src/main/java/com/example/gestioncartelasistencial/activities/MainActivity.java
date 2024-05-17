@@ -1,7 +1,6 @@
 package com.example.gestioncartelasistencial.activities;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -29,6 +28,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
         userEmailTextView.setText(correo);
 
         // Inicializo la barra de navegación.
+        setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
 
         // Carga inicial del HomeFragment con el correo.
         fragmentR(HomeFragment.newInstance(correo));
@@ -96,43 +99,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void ordenServer(String correo) {
-        new SearchTask().execute("SEARCH", correo);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<String> future = executor.submit(new SearchTask("SEARCH", correo));
+
+        try {
+            String result = future.get();
+            processResult(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(MainActivity.this, "Error al obtener los datos del servidor", Toast.LENGTH_SHORT).show();
+        } finally {
+            executor.shutdown();
+        }
     }
 
-    private class SearchTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-
-            String response = "";
-
-            try {
-                Socket socket = new Socket("192.168.1.10", 12345);
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-                // Enviamos orden al servidor.
-                out.println(strings[0]);
-
-                // Enviamos correo al servidor.
-                out.println(strings[1]);
-
-                // Leemos respuesta.
-                response = in.readLine();
-
-                // Cerramos el socket.
-                out.close();
-                in.close();
-                socket.close();
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
+    private void processResult(String result) {
+        if (result != null) {
             if (result.startsWith("ADMIN_SUCCESS")) {
                 String nombre = result.substring("ADMIN_SUCCESS".length()).trim();
                 // Actualiza el HomeFragment con el nombre recibido.
@@ -142,6 +124,38 @@ public class MainActivity extends AppCompatActivity {
             } else if (result.startsWith("ERROR")) {
                 Toast.makeText(MainActivity.this, "Error: " + result.substring("ERROR".length()).trim(), Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private static class SearchTask implements Callable<String> {
+        private final String orden;
+        private final String correo;
+
+        SearchTask(String orden, String correo) {
+            this.orden = orden;
+            this.correo = correo;
+        }
+
+        @Override
+        public String call() {
+            String response = "";
+            try (Socket socket = new Socket("192.168.1.10", 12345);
+                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
+                // Enviamos orden al servidor.
+                out.println(orden);
+
+                // Enviamos correo al servidor.
+                out.println(correo);
+
+                // Leemos respuesta.
+                response = in.readLine();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return response;
         }
     }
 }
