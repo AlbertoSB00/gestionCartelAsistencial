@@ -1,11 +1,9 @@
 package com.example.gestioncartelasistencial.fragments;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.gestioncartelasistencial.R;
 import com.example.gestioncartelasistencial.activities.InsertActivity;
@@ -24,6 +24,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class AdminFragment extends Fragment {
 
@@ -87,53 +89,38 @@ public class AdminFragment extends Fragment {
     }
 
     private void ordenServer(String user, String passwordHashed) {
-        new AuthenticationTask().execute("ADMIN", user, passwordHashed);
-    }
-
-    private class AuthenticationTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... strings) {
-            String response;
-
-            try {
-                Socket socket = new Socket("192.168.1.10", 12345);
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            try (Socket socket = new Socket("192.168.1.10", 12345);
+                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
                 // Enviamos orden al servidor.
-                out.println(strings[0]);
+                out.println("ADMIN");
 
                 // Enviamos credenciales al servidor.
-                out.println(strings[1]);
-                out.println(strings[2]);
+                out.println(user);
+                out.println(passwordHashed);
 
                 // Leemos respuesta.
-                response = in.readLine();
+                String response = in.readLine();
 
-                // Cerramos el socket.
-                out.close();
-                in.close();
-                socket.close();
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    if (response.equals("ADMIN_SUCCESS")) {
+                        // Aquí puedes abrir la actividad principal de tu aplicación
+                        Intent intent = new Intent(getActivity(), InsertActivity.class);
+                        startActivity(intent);
+                    } else if (response.equals("ADMIN_FAILED")) {
+                        Toast.makeText(getActivity(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show());
             }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            if (result.equals("ADMIN_SUCCESS")) {
-                // Aquí puedes abrir la actividad principal de tu aplicación
-                Intent intent = new Intent(getActivity(), InsertActivity.class);
-                startActivity(intent);
-
-            } else if (result.equals("ADMIN_FAILED")) {
-                Toast.makeText(getActivity(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
-
-            } else {
-                Toast.makeText(getActivity(), "Error de conexión", Toast.LENGTH_SHORT).show();
-            }
-        }
+        });
     }
 }

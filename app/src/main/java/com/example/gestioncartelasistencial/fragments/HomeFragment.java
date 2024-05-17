@@ -15,7 +15,6 @@ import com.example.gestioncartelasistencial.R;
 public class HomeFragment extends Fragment {
 
     private static final String ARG_EMAIL = "email";
-    private String nombre;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -32,9 +31,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            nombre = getArguments().getString(ARG_EMAIL);
-        }
     }
 
     @Override
@@ -61,6 +57,7 @@ public class HomeFragment extends Fragment {
         welcomeTextView.setText(getString(R.string.welcome, greeting));
 
         // Obtener el nombre del argumento
+        assert getArguments() != null;
         String nombre = getArguments().getString(ARG_EMAIL);
 
         // Configurar el texto del TextView con el nombre
