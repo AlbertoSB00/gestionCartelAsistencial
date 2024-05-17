@@ -21,7 +21,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="120dp"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="16dp"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:id="@+id/imagenLogo"
@@ -98,7 +99,6 @@
                 android:layout_marginEnd="32dp"
                 android:autofillHints="password" />
 
-            <!--
             <TextView
                 android:id="@+id/textoOlvidastePassword"
                 android:layout_width="match_parent"
@@ -109,7 +109,6 @@
                 android:textColor="@color/texto"
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"/>
-            -->
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/botonSiguiente"

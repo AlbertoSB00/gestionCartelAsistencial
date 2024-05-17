@@ -35,6 +35,14 @@ public class LoginActivity extends AppCompatActivity {
         campoPassword = findViewById(R.id.campoPassword);
         Button botonSiguiente = findViewById(R.id.botonSiguiente);
         TextView textoRegistrateAhora = findViewById(R.id.textoRegistrateAhora);
+        TextView textoOlvidastePassword = findViewById(R.id.textoOlvidastePassword);
+
+        // Manejo del clic en "Olvidaste tu contraseña".
+        textoOlvidastePassword.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
+            finish();
+        });
 
         // Manejo del clic en "Siguiente".
         botonSiguiente.setOnClickListener(v -> handleLogin());
