@@ -1,76 +1,48 @@
 package com.example.gestioncartelasistencial.activities;
 
-import android.annotation.SuppressLint;
-
-import androidx.appcompat.app.ActionBar;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 
 import com.example.gestioncartelasistencial.databinding.ActivitySplashScreenBinding;
 
-import java.util.Objects;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashScreenActivity extends AppCompatActivity {
 
-    private static final int UI_ANIMATION_DELAY = 300;
-    private final Handler mHideHandler = new Handler(Objects.requireNonNull(Looper.myLooper()));
     private View mContentView;
-    private final Runnable mHidePart2Runnable = new Runnable() {
-        @SuppressLint("InlinedApi")
-        @Override
-        public void run() {
-
-        }
-    };
-    private final Runnable mShowPart2Runnable = () -> {
-
-    };
-    private final Runnable mHideRunnable = this::hide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        com.example.gestioncartelasistencial.databinding.ActivitySplashScreenBinding binding = ActivitySplashScreenBinding.inflate(getLayoutInflater());
+        ActivitySplashScreenBinding binding = ActivitySplashScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    sleep(2000);
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
+        // Obtener la vista principal
+        mContentView = binding.getRoot();
 
-        thread.start();
+        // Iniciar la animación
+        fadeIn();
     }
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
 
-        delayedHide();
-    }
-    private void hide() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
-        mHideHandler.removeCallbacks(mShowPart2Runnable);
-        mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY);
-    }
-    private void delayedHide() {
-        mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, 100);
+    private void fadeIn() {
+        // Aplicar la animación de fundido a la vista principal
+        mContentView.setAlpha(0f);
+        mContentView.animate()
+                .alpha(1f)
+                .setDuration(1500)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        // Iniciar la siguiente actividad cuando termine la animación
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                        finish();
+                    }
+                });
     }
 }
