@@ -14,7 +14,27 @@ import com.example.gestioncartelasistencial.R;
 
 public class HomeFragment extends Fragment {
 
+    private static final String ARG_EMAIL = "email";
+    private String nombre;
+
     public HomeFragment() {
+        // Required empty public constructor
+    }
+
+    public static HomeFragment newInstance(String email) {
+        HomeFragment fragment = new HomeFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_EMAIL, email);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            nombre = getArguments().getString(ARG_EMAIL);
+        }
     }
 
     @Override
@@ -40,6 +60,14 @@ public class HomeFragment extends Fragment {
         // Configurar el texto del TextView con el saludo
         welcomeTextView.setText(getString(R.string.welcome, greeting));
 
+        // Obtener el nombre del argumento
+        String nombre = getArguments().getString(ARG_EMAIL);
+
+        // Configurar el texto del TextView con el nombre
+        TextView nameTextView = view.findViewById(R.id.nombre_text);
+        nameTextView.setText(nombre);
+
         return view;
     }
+
 }

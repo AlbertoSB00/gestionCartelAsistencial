@@ -4,41 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <item
+        android:title="@string/menu">
 
-        <item
-            android:id="@+id/home"
-            android:icon="@drawable/nav_home"
-            android:title="@string/home"/>
+        <menu>
 
-        <item
-            android:id="@+id/doctor"
-            android:icon="@drawable/nav_doctor"
-            android:title="@string/doctors"/>
+            <item
+                android:id="@+id/home"
+                android:icon="@drawable/nav_home"
+                android:title="@string/home"/>
 
-        <item
-            android:id="@+id/reserve"
-            android:icon="@drawable/nav_reserve"
-            android:title="@string/reserve"/>
+            <item
+                android:id="@+id/doctor"
+                android:icon="@drawable/nav_doctor"
+                android:title="@string/doctors"/>
 
-        <item
-            android:id="@+id/settings"
-            android:icon="@drawable/nav_settings"
-            android:title="@string/settings"/>
+            <item
+                android:id="@+id/reserve"
+                android:icon="@drawable/nav_reserve"
+                android:title="@string/reserve"/>
 
-        <item
-            android:id="@+id/admin"
-            android:title="@string/admin_mode"
-            android:icon="@drawable/nav_reserve"/>
+            <item
+                android:id="@+id/settings"
+                android:icon="@drawable/nav_settings"
+                android:title="@string/settings"/>
 
-        <item
-            android:title=""/>
+        </menu>
 
-        <item
-            android:id="@+id/log_out"
-            android:title="@string/log_out"
-            android:icon="@drawable/icon_logout"/>
+    </item>
 
-    </group>
+    <item
+        android:title="@string/access">
+
+        <menu>
+
+            <item
+                android:id="@+id/admin"
+                android:title="@string/admin_mode"
+                android:icon="@drawable/nav_reserve"/>
+
+            <item
+                android:id="@+id/log_out"
+                android:title="@string/log_out"
+                android:icon="@drawable/icon_logout"/>
+
+        </menu>
+
+    </item>
 
 </menu>

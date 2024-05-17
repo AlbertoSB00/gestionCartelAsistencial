@@ -1,7 +1,6 @@
 package com.example.gestioncartelasistencial.activities;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +18,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -34,42 +35,37 @@ public class LoginActivity extends AppCompatActivity {
         campoPassword = findViewById(R.id.campoPassword);
         Button botonSiguiente = findViewById(R.id.botonSiguiente);
         TextView textoRegistrateAhora = findViewById(R.id.textoRegistrateAhora);
-        // TextView textoOlvidastePassword = findViewById(R.id.textoOlvidastePassword);
 
-        /*
-        // Al pulsa ¿Olvidaste la contraseña?.
-        textoOlvidastePassword.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
-            startActivity(intent);
-            finish();
-        });
-        */
+        // Manejo del clic en "Siguiente".
+        botonSiguiente.setOnClickListener(v -> handleLogin());
 
-        // Al pulsar "Siguiente".
-        botonSiguiente.setOnClickListener(v -> {
-            String user = campoUser.getText().toString().trim();
-            String password = campoPassword.getText().toString().trim();
-            String hashPassword = cifrarPassword(password);
-
-            // Validamos que los campos no estén vacíos.
-            if (user.isEmpty() || password.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "Por favor, rellene todos los campos.", Toast.LENGTH_SHORT).show();
-            }
-
-            ordenServer(user, hashPassword);
-        });
-
-        // Al pulsar "Regístrate ahora".
+        // Manejo del clic en "Regístrate ahora".
         textoRegistrateAhora.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
             finish();
         });
+    }
 
+    private void handleLogin() {
+        String user = campoUser.getText().toString().trim();
+        String password = campoPassword.getText().toString().trim();
+
+        if (user.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Por favor, rellene todos los campos.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String hashPassword = cifrarPassword(password);
+        if (hashPassword != null) {
+            ordenServer(user, hashPassword);
+        } else {
+            Toast.makeText(this, "Error al cifrar la contraseña", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Método para cifrar la contraseña usando SHA-256
-    public String cifrarPassword(String password) {
+    private String cifrarPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(password.getBytes());
@@ -89,54 +85,42 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void ordenServer(String user, String hashPassword) {
-        new AuthenticationTask().execute("LOGIN", user, hashPassword);
-    }
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            try (Socket socket = new Socket("192.168.1.10", 12345);
+                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
-    private class AuthenticationTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... strings) {
-            String response;
-
-            try{
-                Socket socket = new Socket("192.168.1.10", 12345);
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-                // Enviamos orden al servidor.
-                out.println(strings[0]);
-
-                // Enviamos credenciales al servidor.
-                out.println(strings[1]);
-                out.println(strings[2]);
+                // Enviamos orden y datos al servidor.
+                out.println("LOGIN");
+                out.println(user);
+                out.println(hashPassword);
 
                 // Leemos respuesta.
-                response = in.readLine();
+                String response = in.readLine();
 
-                // Cerramos el socket.
-                out.close();
-                in.close();
-                socket.close();
+                runOnUiThread(() -> {
+                    switch (response) {
+                        case "LOGIN_SUCCESS":
+                            // Abrir la actividad principal de la aplicación
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.putExtra("CORREO", campoUser.getText().toString().trim());
+                            startActivity(intent);
+                            finish();
+                            break;
+                        case "LOGIN_FAILED":
+                            Toast.makeText(LoginActivity.this, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                            Toast.makeText(LoginActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                });
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show());
             }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            if (result.equals("LOGIN_SUCCESS")) {
-                // Aquí puedes abrir la actividad principal de tu aplicación
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("CORREO", campoUser.getText().toString().trim());
-                startActivity(intent);
-
-            } else if (result.equals("LOGIN_FAILED")) {
-                Toast.makeText(LoginActivity.this, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show();
-
-            } else {
-                Toast.makeText(LoginActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
-            }
-        }
+        });
     }
 }

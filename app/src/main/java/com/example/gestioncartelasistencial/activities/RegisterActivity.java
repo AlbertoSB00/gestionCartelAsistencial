@@ -1,7 +1,6 @@
 package com.example.gestioncartelasistencial.activities;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,6 +19,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -45,38 +46,50 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Al pulsar "Volver".
         volver.setOnClickListener(v -> {
-           Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-           startActivity(intent);
-           finish();
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         });
 
         // Al pulsar "Siguiente".
-        botonSiguiente.setOnClickListener(v -> {
-            String nombre = campoNombre.getText().toString().trim();
-            String user = campoUser.getText().toString().trim();
-            String password = campoPassword.getText().toString().trim();
-            String repitePassword = campoRepitePassword.getText().toString().trim();
-            String hashedPassword = cifrarPassword(password);
-            boolean privacidad = campoPrivacidad.isChecked();
+        botonSiguiente.setOnClickListener(v -> handleRegister());
+    }
 
-            // Validamos que los campos no estén vacíos.
-            if (nombre.isEmpty() || user.isEmpty() || password.isEmpty() || repitePassword.isEmpty()) {
-                Toast.makeText(RegisterActivity.this, "Por favor, rellene todos los campos.", Toast.LENGTH_SHORT).show();
+    private void handleRegister() {
+        String nombre = campoNombre.getText().toString().trim();
+        String user = campoUser.getText().toString().trim();
+        String password = campoPassword.getText().toString().trim();
+        String repitePassword = campoRepitePassword.getText().toString().trim();
+        boolean privacidad = campoPrivacidad.isChecked();
 
-            } else if (!privacidad) {
-                Toast.makeText(this, "Por favor, lea y acepte la política de privacidad.", Toast.LENGTH_SHORT).show();
+        // Validamos que los campos no estén vacíos.
+        if (nombre.isEmpty() || user.isEmpty() || password.isEmpty() || repitePassword.isEmpty()) {
+            Toast.makeText(this, "Por favor, rellene todos los campos.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-            } else if (!password.equals(repitePassword)) {
-                Toast.makeText(RegisterActivity.this, "Las contraseña no coinciden.", Toast.LENGTH_SHORT).show();
+        // Validamos la política de privacidad.
+        if (!privacidad) {
+            Toast.makeText(this, "Por favor, lea y acepte la política de privacidad.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-            } else {
-                ordenServer(nombre, user, hashedPassword);
-            }
-        });
+        // Validamos que las contraseñas coincidan.
+        if (!password.equals(repitePassword)) {
+            Toast.makeText(this, "Las contraseña no coinciden.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String hashedPassword = cifrarPassword(password);
+        if (hashedPassword != null) {
+            ordenServer(nombre, user, hashedPassword);
+        } else {
+            Toast.makeText(this, "Error al cifrar la contraseña", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Método para cifrar la contraseña usando SHA-256
-    public String cifrarPassword(String password) {
+    private String cifrarPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(password.getBytes());
@@ -96,55 +109,38 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void ordenServer(String nombre, String user, String passwordHashed) {
-        new AuthenticationTask().execute("REGISTER", nombre, user, passwordHashed);
-    }
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            try (Socket socket = new Socket("192.168.1.10", 12345);
+                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
-    private class AuthenticationTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... strings) {
-            String response;
-
-            try{
-                Socket socket = new Socket("192.168.1.10", 12345);
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-                // Enviamos orden al servidor.
-                out.println(strings[0]);
-
-                // Enviamos credenciales al servidor.
-                out.println(strings[1]);
-                out.println(strings[2]);
-                out.println(strings[3]);
+                // Enviamos orden y datos al servidor.
+                out.println("REGISTER");
+                out.println(nombre);
+                out.println(user);
+                out.println(passwordHashed);
 
                 // Leemos respuesta.
-                response = in.readLine();
+                String response = in.readLine();
 
-                // Cerramos el socket.
-                out.close();
-                in.close();
-                socket.close();
+                runOnUiThread(() -> {
+                    if ("REGISTER_SUCCESS".equals(response)) {
+                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        intent.putExtra("CORREO", campoUser.getText().toString().trim());
+                        startActivity(intent);
+                        finish();
+                    } else if ("REGISTER_FAILED".equals(response)) {
+                        Toast.makeText(RegisterActivity.this, "Algo ha ido mal...", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(RegisterActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                runOnUiThread(() -> Toast.makeText(RegisterActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show());
             }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            if (result.equals("REGISTER_SUCCESS")) {
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                intent.putExtra("CORREO", campoUser.getText().toString().trim());
-                startActivity(intent);
-
-            } else if (result.equals("REGISTER_FAILED")) {
-                Toast.makeText(RegisterActivity.this, "Algo ha ido mal...", Toast.LENGTH_SHORT).show();
-
-            } else {
-                Toast.makeText(RegisterActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
-            }
-        }
+        });
     }
-
 }
