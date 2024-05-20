@@ -24,6 +24,9 @@ import java.util.concurrent.Executors;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    private static final String IP = "192.168.1.10";
+    private static final int PORT = 12345;
+
     private EditText campoNombre;
     private EditText campoUser;
     private EditText campoPassword;
@@ -111,7 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void ordenServer(String nombre, String user, String passwordHashed) {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
-            try (Socket socket = new Socket("192.168.1.10", 12345);
+            try (Socket socket = new Socket(IP, PORT);
                  PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                  BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 

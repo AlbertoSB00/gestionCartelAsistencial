@@ -21,6 +21,9 @@ import java.util.concurrent.Executors;
 
 public class InsertActivity extends AppCompatActivity {
 
+    private static final String IP = "192.168.1.10";
+    private static final int PORT = 12345;
+
     private EditText campoNIF;
     private EditText campoName;
     private EditText campoSurname;
@@ -72,7 +75,7 @@ public class InsertActivity extends AppCompatActivity {
     private void orden(String nif, String name, String surname, String phoneNumber, String address, String email) {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
-            try (Socket socket = new Socket("192.168.1.10", 12345);
+            try (Socket socket = new Socket(IP, PORT);
                  PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                  BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 

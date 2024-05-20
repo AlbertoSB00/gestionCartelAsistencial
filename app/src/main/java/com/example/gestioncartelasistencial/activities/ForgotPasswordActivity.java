@@ -23,6 +23,9 @@ import java.util.concurrent.Executors;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
+    private static final String IP = "192.168.1.10";
+    private static final int PORT = 12345;
+
     private EditText campoEmail;
     private EditText campoPassword;
     private EditText campoRepitePassword;
@@ -57,7 +60,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
-            try (Socket socket = new Socket("192.168.1.10", 12345);
+            try (Socket socket = new Socket(IP, PORT);
                  PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                  BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
@@ -100,7 +103,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         if (hashPassword != null) {
             Executor executor = Executors.newSingleThreadExecutor();
             executor.execute(() -> {
-                try (Socket socket = new Socket("192.168.1.10", 12345);
+                try (Socket socket = new Socket("192.168.1.10", 161);
                      PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                      BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 

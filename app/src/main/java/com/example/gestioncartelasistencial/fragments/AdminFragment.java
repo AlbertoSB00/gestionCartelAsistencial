@@ -29,6 +29,9 @@ import java.util.concurrent.Executors;
 
 public class AdminFragment extends Fragment {
 
+    private static final String IP = "192.168.1.10";
+    private static final int PORT = 12345;
+
     private EditText campoUser;
     private EditText campoPassword;
 
@@ -91,7 +94,7 @@ public class AdminFragment extends Fragment {
     private void ordenServer(String user, String passwordHashed) {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
-            try (Socket socket = new Socket("192.168.1.10", 12345);
+            try (Socket socket = new Socket(IP, PORT);
                  PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                  BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
