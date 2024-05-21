@@ -22,10 +22,72 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/texto"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="64dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:textSize="18sp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/noticias_text"
+        android:text="@string/noticias"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/texto"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="138dp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/edittext_fondo"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/botonInfo"
+        style="@android:style/Widget.Button"
+        android:layout_marginTop="340dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/boton"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/texto"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:text="@string/info" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="140dp"
+        android:contentDescription="@string/logo"
+        android:src="@drawable/logo"
+        android:layout_marginTop="190dp"/>
+
+    <TextView
+        android:id="@+id/textoTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="titulo"
+        android:textSize="28sp"
+        android:textColor="@color/texto"
+        android:layout_marginTop="180dp"
+        android:layout_marginStart="200dp"
+        android:textAlignment="textStart"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textoContenido"
+        android:layout_width="166dp"
+        android:layout_height="144dp"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="220dp"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dictum ante malesuada lacus tincidunt tempor. Maecenas convallis eget odio a facilisis. Donec vel bibendum orci."
+        android:textAlignment="textStart"
+        android:textColor="@color/texto"
+        android:textSize="13sp" />
 
 </FrameLayout>
