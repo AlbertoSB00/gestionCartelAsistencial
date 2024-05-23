@@ -88,5 +88,7 @@
     <string name="access">Acceso</string>
     <string name="noticias">NOTICIAS</string>
     <string name="info">+ info</string>
+    <string name="saludo">saludo</string>
+    <string name="nombre">nombre</string>
 
 </resources>

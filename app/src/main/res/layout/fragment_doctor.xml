@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/ours_profesionals"
                 android:textSize="28sp"
+                android:fontFamily="@font/poetsen"
                 android:textColor="@color/texto"
                 android:layout_marginTop="64dp"
                 android:layout_marginStart="32dp"
